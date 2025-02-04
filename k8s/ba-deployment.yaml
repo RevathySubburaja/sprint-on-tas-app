@@ -1,0 +1,164 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: catalog-service
+  template:
+    metadata:
+      labels:
+        app: catalog-service
+    spec:
+      serviceAccountName: tanzu-hub-app-management-spring-apps-service-account
+      automountServiceAccountToken: true
+      imagePullSecrets:
+        - name: registrysecret
+      containers:
+        - name: catalog-service-app-container
+          image: symphony-docker-local.jfrog.io/tanzu/hub/app/spring/demo-apps:8
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "300M"
+              cpu: "250m"
+            limits:
+              memory: "500M"
+              cpu: "500m"
+          env:
+            - name: JAVA_OPTS
+              value: >-
+                -Xms50M
+                -Xmx250M
+                -Dspring.profiles.active=catalog
+                -DDEPLOYMENT_URL=http://deployment-service:8082 
+                -DDB_HOST=demo-apps-db
+                -DTELEGRAF_URL=http://gg-telegraph.aria-k8s.svc.cluster.local
+          ports:
+            - containerPort: 8081
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: deployment-service
+  template:
+    metadata:
+      labels:
+        app: deployment-service
+    spec:
+      serviceAccountName: tanzu-hub-app-management-spring-apps-service-account
+      automountServiceAccountToken: true
+      imagePullSecrets:
+        - name: registrysecret
+      containers:
+        - name: deployment-service-app-container
+          image: symphony-docker-local.jfrog.io/tanzu/hub/app/spring/demo-apps:8
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "300M"
+              cpu: "250m"
+            limits:
+              memory: "500M"
+              cpu: "500m"
+          env:
+            - name: JAVA_OPTS
+              value: >-
+                -Xms50M
+                -Xmx250M
+                -Dspring.profiles.active=deployment 
+                -DAPPROVAL_URL=http://approval-service:8083
+                -DPROVISION_URL=http://provision-service:8084
+                -DCATALOG_URL=http://catalog-service:8081
+                -DDB_HOST=demo-apps-db
+                -DTELEGRAF_URL=http://gg-telegraph.aria-k8s.svc.cluster.local
+          ports:
+            - containerPort: 8082
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: approval-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: approval-service
+  template:
+    metadata:
+      labels:
+        app: approval-service
+    spec:
+      serviceAccountName: tanzu-hub-app-management-spring-apps-service-account
+      automountServiceAccountToken: true
+      imagePullSecrets:
+        - name: registrysecret
+      containers:
+        - name: approval-service-app-container
+          image: symphony-docker-local.jfrog.io/tanzu/hub/app/spring/demo-apps:8
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "300M"
+              cpu: "250m"
+            limits:
+              memory: "500M"
+              cpu: "500m"
+          env:
+            - name: JAVA_OPTS
+              value: >-
+                -Xms50M
+                -Xmx250M
+                -Dspring.profiles.active=approval
+                -DDEPLOYMENT_URL=http://deployment-service:8082 
+                -DDB_HOST=demo-apps-db
+                -DTELEGRAF_URL=http://gg-telegraph.aria-k8s.svc.cluster.local
+          ports:
+            - containerPort: 8083
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: provision-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: provision-service
+  template:
+    metadata:
+      labels:
+        app: provision-service
+    spec:
+      serviceAccountName: tanzu-hub-app-management-spring-apps-service-account
+      automountServiceAccountToken: true
+      imagePullSecrets:
+        - name: registrysecret
+      containers:
+        - name: provision-service-app-container
+          image: symphony-docker-local.jfrog.io/tanzu/hub/app/spring/demo-apps:8
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "300M"
+              cpu: "250m"
+            limits:
+              memory: "500M"
+              cpu: "500m"
+          env:
+            - name: JAVA_OPTS
+              value: >-
+                -Xms50M
+                -Xmx250M
+                -Dspring.profiles.active=provision 
+                -DDB_HOST=demo-apps-db
+                -DTELEGRAF_URL=http://gg-telegraph.aria-k8s.svc.cluster.local
+          ports:
+            - containerPort: 8084

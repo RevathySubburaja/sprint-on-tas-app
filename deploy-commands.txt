@@ -1,0 +1,32 @@
+aws eks update-kubeconfig --region us-west-2 --name tis-deployments-test-2 --kubeconfig ~/kubeconfig/TIS-Dev-eks-tis-deployments-test-2-cluster-admin --profile TIS-Dev-eks-tis-deployments-test-2-cluster-admin
+
+export KUBECONFIG=/Users/narayanasamyr/kubeconfig/TIS-Dev-eks-tis-deployments-test-2-cluster-admin
+
+kubectl create ns app-management-spring-demo
+
+kubectl apply -f regsitry-secret.yaml -n  app-management-spring-demo
+
+kubectl apply -f service-account.yaml -n  app-management-spring-demo
+
+kubectl apply -f cluster-role-bindings.yaml -n  app-management-spring-demo
+
+kubectl apply -f db-deployment.yaml -n app-management-spring-demo
+
+kubectl get pods -n app-management-spring-demo
+
+kubectl apply -f telegraf.yaml -n app-management-spring-demo
+
+kubectl apply -f ba-deployment.yaml -n app-management-spring-demo
+
+kubectl apply -f service.yaml -n app-management-spring-demo
+
+kubectl apply -f request-deployment.yaml -n app-management-spring-demo
+
+kubectl logs -f -l app=request-job -n app-management-spring-demo
+
+kubectl logs -f -l app=anzu-hub-app-spring-telegraf -n app-management-spring-demo
+
+curl --location --request GET 'http://localhost:8081/api/catalog'
+
+curl --location --request POST 'http://localhost:8081/api/catalog/de4f3131-87c1-464c-a502-b16affc6b287/request' --header 'Content-Type: application/json' --data-raw '{"name": "jira-postgres-database","description": "database for jira application","inputs": {"cpu" : 16, "memory": "32GB","storage": "1TB","type": "SSD" }}'
+

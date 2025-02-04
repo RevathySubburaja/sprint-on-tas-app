@@ -1,0 +1,15 @@
+server:
+  port: 8084
+info:
+  app:
+    name: provision-service
+    description: "provision service to create and manage deployment resources in the cloud endpoints"
+spring:
+  application:
+    name: provision-service
+  liquibase:
+    change-log: classpath:provision-changelog.xml
+  datasource:
+    url: jdbc:postgresql://q-s0.postgres-instance.tale-2810941-services-subnet.service-instance-2bc41a57-0db8-4047-955e-209ae249aa61.bosh:5432/postgres?user=pgadmin&password=W3p6H7KI2A5hM8R09C14/provision_db
+    username: postgres
+    password: password

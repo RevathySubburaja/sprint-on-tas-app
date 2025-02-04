@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tanzu-hub-app-spring-telegraf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tanzu-hub-app-spring-telegraf
+  template:
+    metadata:
+      labels:
+        app: tanzu-hub-app-spring-telegraf
+    spec:
+      #serviceAccountName: tanzu-hub-app-management-spring-apps-service-account
+      #automountServiceAccountToken: true
+      imagePullSecrets:
+        - name: registrysecret
+      containers:
+        - name: tanzu-hub-app-spring-telegraf
+          image: symphony-docker-local.jfrog.io/tanzu/hub/app/spring/telegraf:3
+          imagePullPolicy: Always
+          stdin: true
+          tty: true
+          ports:
+            - containerPort: 80
+          env:
+            - name: ENVIRONMENT_TYPE
+              value: "kubernetes"
+            - name: CLUSTER_NAME
+              value: "tis-deployments-test-2"
+            - name: COLLECTOR_ID
+              value: "0ae1fdc18afbe11d12a7765beae070da"
+            - name: CLOUD_ACCOUNT_ID
+              value: "088558740555"
+            - name: REGION
+              value: "us-west-2"
+            - name: ENVIRONMENT
+              value: "https://data.staging.symphony-dev.com"
+            - name: ACCESS_KEY
+              value: "HS469eGGWhl3yKpIDjz7XrpnhLfNF3SC"
+            - name: ORG_ID
+              value: "ee04bfae-a665-4f20-a5b9-d8b043180252"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tanzu-hub-app-spring-telegraf
+spec:
+  selector:
+    app: tanzu-hub-app-spring-telegraf
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

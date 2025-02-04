@@ -1,0 +1,18 @@
+server:
+  port: 8083
+info:
+  app:
+    name: approval-service
+    description: "approval service to handle approval flow"
+spring:
+  application:
+    name: approval-service
+  liquibase:
+    change-log: classpath:approval-changelog.xml
+  datasource:
+    url: jdbc:postgresql://q-s0.postgres-instance.tale-2810941-services-subnet.service-instance-2bc41a57-0db8-4047-955e-209ae249aa61.bosh:5432/postgres?user=pgadmin&password=W3p6H7KI2A5hM8R09C14/approval_db
+    username: postgres
+    password: password
+
+approval:
+  deploymentUrl: ${DEPLOYMENT_URL:http://localhost:8082}

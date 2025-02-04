@@ -1,0 +1,34 @@
+---
+applications:
+  - name: approval
+    memory: 1G
+    random-route: true
+    path: docker/files/hub-app-management-spring-demo-apps-0.0.1-SNAPSHOT-approval.jar
+    env:
+      JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+      SPRING_PROFILES_ACTIVE: approval
+      JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 17.+ } }'
+  - name: catalog
+    memory: 1G
+    random-route: true
+    path: docker/files/hub-app-management-spring-demo-apps-0.0.1-SNAPSHOT-catalog.jar
+    env:
+      JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+      SPRING_PROFILES_ACTIVE: catalog
+      JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 17.+ } }'
+  - name: deployment
+    memory: 1G
+    random-route: true
+    path: docker/files/hub-app-management-spring-demo-apps-0.0.1-SNAPSHOT-deployment.jar
+    env:
+      JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+      SPRING_PROFILES_ACTIVE: deployment
+      JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 17.+ } }'
+  - name: provision
+    memory: 1G
+    random-route: true
+    path: docker/files/hub-app-management-spring-demo-apps-0.0.1-SNAPSHOT-provision.jar
+    env:
+      JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+      SPRING_PROFILES_ACTIVE: provision
+      JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 17.+ } }'

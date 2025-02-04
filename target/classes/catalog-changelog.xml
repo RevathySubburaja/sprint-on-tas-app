@@ -1,0 +1,54 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="catalog_service" id="1" logicalFilePath="classpath:/catalog-changelog.xml">
+        <createTable tableName="catalog">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="catalog_request">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="catalog_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="inputs" type="json"/>
+        </createTable>
+
+        <sql>
+            INSERT INTO
+            catalog (id, name, description) values
+            ( gen_random_uuid(), 'postrges database', 'vm with postgres database service')
+        </sql>
+
+        <sql>
+            INSERT INTO
+            catalog (id, name, description) values
+            ( gen_random_uuid(), 'mysql database', 'vm with mysql database service')
+        </sql>
+
+        <sql>
+            INSERT INTO
+            catalog (id, name, description) values
+            ( gen_random_uuid(), 'node js, java, postgres database', '3 vms for node js, java, postgres database')
+        </sql>
+    </changeSet>
+</databaseChangeLog>

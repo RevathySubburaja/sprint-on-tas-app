@@ -1,0 +1,41 @@
+mutation entityMutation(
+    $entityId: EntityId!
+    $entityName: String
+    $collectionSource: String
+    $entityType: String
+    $region: String
+    $cloudAccountId: String
+    $provider: String
+    $service: String
+    $operation: EntityDeltaOperation!
+    $properties: [EntityPropertyInput!]
+    $ifUnmodifiedSince: DateTime!
+) {
+    entityMutation {
+        entityInventoryMutation {
+            mutate(
+                entityUpdates:{
+                    operation:$operation
+                    ifUnmodifiedSince: $ifUnmodifiedSince
+                    entity:{
+                        collectionSource: $collectionSource
+                        entityId: $entityId,
+                        entityName: $entityName,
+                        entityType: $entityType,
+                        region: $region
+                        cloudAccountId: $cloudAccountId
+                        provider: $provider
+                        service: $service
+                        properties: $properties
+                    }
+                }
+            ){
+                entityUpdates {
+                    entity {
+                        entityId
+                    }
+                }
+            }
+        }
+    }
+}

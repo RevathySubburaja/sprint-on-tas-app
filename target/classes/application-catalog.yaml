@@ -1,0 +1,18 @@
+server:
+  port: 8081
+info:
+  app:
+    name: catalog-service
+    description: "catalog service to manage catalogs"
+spring:
+  application:
+    name: catalog-service
+  liquibase:
+    change-log: classpath:catalog-changelog.xml
+  datasource:
+    url: jdbc:postgresql://q-s0.postgres-instance.tale-2810941-services-subnet.service-instance-2bc41a57-0db8-4047-955e-209ae249aa61.bosh:5432/postgres?user=pgadmin&password=W3p6H7KI2A5hM8R09C14/catalog_db
+    username: postgres
+    password: password
+
+catalog:
+  deploymentUrl: ${DEPLOYMENT_URL:http://localhost:8082}

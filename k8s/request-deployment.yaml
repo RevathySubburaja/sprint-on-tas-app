@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: request-job
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: request-job
+  template:
+    metadata:
+      labels:
+        app: request-job
+    spec:
+      serviceAccountName: tanzu-hub-app-management-spring-apps-service-account
+      automountServiceAccountToken: true
+      imagePullSecrets:
+        - name: registrysecret
+      containers:
+        - name: request-job-container
+          image: symphony-docker-local.jfrog.io/tanzu/hub/app/spring/demo-apps-request-job:4
+          imagePullPolicy: Always

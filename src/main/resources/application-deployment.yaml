@@ -1,0 +1,20 @@
+server:
+  port: 8082
+info:
+  app:
+    name: deployment-service
+    description: "deployment service to create and manage deployments"
+spring:
+  application:
+    name: deployment-service
+  liquibase:
+    change-log: classpath:deployment-changelog.xml
+  datasource:
+    url: jdbc:postgresql://q-s0.postgres-instance.tale-2810941-services-subnet.service-instance-2bc41a57-0db8-4047-955e-209ae249aa61.bosh:5432/postgres?user=pgadmin&password=W3p6H7KI2A5hM8R09C14/deployment_db
+    username: postgres
+    password: password
+
+deployment:
+  approvalUrl: ${APPROVAL_URL:http://localhost:8083}
+  provisioningUrl: ${PROVISION_URL:http://localhost:8084}
+  catalogUrl: ${CATALOG_URL:http://localhost:8081}

@@ -1,0 +1,63 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  tracing:
+    sampling:
+      probability: 1.0
+  wavefront:
+    application:
+      name: spring-demo
+      service-name: tanzu-hub-app-management-spring-demo-apps
+      custom-tags:
+        instance_guid: ${CF_INSTANCE_GUID}
+    api-token: cfd06c63-7ef3-4f3d-a48f-8bf662bf2673
+    uri: https://telegraf.hub-collector.service.internal:8765
+  metrics:
+    tags:
+      instance_guid: ${CF_INSTANCE_GUID}
+  open-telemetry:
+    resource-attributes:
+      spring.instance.id: value1sasfafs
+  endpoint:
+    beans:
+      enabled: true
+    conditions:
+      enabled: true
+    configprops:
+      enabled: true
+      show-values: ALWAYS
+    info:
+      show-values: ALWAYS
+      git:
+        mode: full
+    env:
+      show-values: ALWAYS
+    health:
+      enabled: true
+      show-details: ALWAYS
+    loggers:
+      enabled: true
+    mappings:
+      enabled: true
+    probes:
+      enabled: true
+  info:
+    build-timestamp: 2025-02-04T12:52:44Z
+    git:
+      enabled: true
+      mode: full
+    env:
+      enabled: true
+    java:
+      enabled: true
+
+info:
+  spring:
+    version: '3.2.2'
+  app:
+    version: 0.0.1-SNAPSHOT
+
+application:
+  externalUrl: http://github.com

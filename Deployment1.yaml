@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tier1-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tier1-service
+  template:
+    metadata:
+      labels:
+        app: tier1-service
+    spec:
+      containers:
+        - name: tier1-service-container
+          image: docker.io/library/app-data-ingest:2
+          env:
+            - name: JAVA_OPTS
+              value: "-Dwavefront.url=http://localhost:999 -DSERVICE1=tier1-service.default.svc.cluster.local -DSERVICE2=tier2-service.default.svc.cluster.local -DSERVICE1=tier2-service.default.svc.cluster.local"
+          ports:
+            - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tier2-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tier2-service
+  template:
+    metadata:
+      labels:
+        app: tier2-service
+    spec:
+      containers:
+        - name: tier2-service-container
+          image: docker.io/library/app-data-ingest:2
+          env:
+            - name: JAVA_OPTS
+              value: "-Dwavefront.url=http://localhost:999 -DSERVICE1=tier1-service.default.svc.cluster.local -DSERVICE2=tier2-service.default.svc.cluster.local -DSERVICE1=tier2-service.default.svc.cluster.local"
+          ports:
+            - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tier3-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tier3-service
+  template:
+    metadata:
+      labels:
+        app: tier3-service
+    spec:
+      containers:
+        - name: tier3-service-container
+          image: docker.io/library/app-data-ingest:2
+          env:
+            - name: JAVA_OPTS
+              value: "-Dwavefront.url=http://localhost:999 -DSERVICE1=tier1-service.default.svc.cluster.local -DSERVICE2=tier2-service.default.svc.cluster.local -DSERVICE1=tier2-service.default.svc.cluster.local"
+          ports:
+            - containerPort: 8080
