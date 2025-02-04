@@ -1,3 +1,26 @@
+
+Steps to deploy the apps in Cloud Foundary:
+
+. Clone repo locally
+2. Create DB service:
+   - Check for postgres in marketplace: `cf marketplace` _(NOTE: you will need to have the postgres tile installed on your foundation)_
+   - Create service in space: `cf create-service postgres small-db spring-on-tas-demo-db`
+3. Create JARs: `./src/main/resources/build-app.sh`
+4. Push app to CF: `cf push --no-start`
+5. Bind PG service to all apps: `cf bind-service approval spring-on-tas-demo-db && cf bind-service catalog spring-on-tas-demo-db && cf bind-service deployment spring-on-tas-demo-db && cf bind-service provision spring-on-tas-demo-db`
+6. Copy the "jdbcUrl" from each app: `cf env <app_name>`
+7. Update application-<app_name>.yaml with above for each app
+   - Update field `spring.datasource.url` (be sure to leave the db_name at end of url ie: _catalog_db_)
+8. update all 4 apps deployment url as per cf apps url in all 4 yamls.
+9. Re-build JARs and push: `./src/main/resources/build-app.sh && cf push` (_NOTE: you may need to manually start your deployed apps if they do not automatically do so after the push_)
+
+To generate realtime data for the apps, run script: `./docker-request-job/start.sh`
+
+
+
+
+Steps to deploy in K8s
+
 How to run
 
 There are 4 micro services which are catalog, deployment, approval and provision services
